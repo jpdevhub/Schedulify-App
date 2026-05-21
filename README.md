@@ -154,3 +154,5 @@ MIT — free for personal and educational use.
 <p align="center">
   <em>Built for colleges. Powered by AI. Runs everywhere Android does.</em>
 </p>
+
+<!-- v1.0.0 -->
