@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="assets/images/schedulify_logo.png" alt="Schedulify Logo" width="96" height="96" style="border-radius: 16px;" />
-</p>
-
 <h1 align="center">Schedulify</h1>
 
 <p align="center">
@@ -9,17 +5,17 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/yourusername/Schedulify-App/issues/new?labels=bug">Report Bug</a>
+  <a href="https://github.com/gloooomed/Schedulify-App/issues/new?labels=bug">Report Bug</a>
   ·
-  <a href="https://github.com/yourusername/Schedulify-App/issues/new?labels=enhancement">Request Feature</a>
+  <a href="https://github.com/gloooomed/Schedulify-App/issues/new?labels=enhancement">Request Feature</a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/yourusername/Schedulify-App/stargazers">
-    <img src="https://img.shields.io/github/stars/yourusername/Schedulify-App?style=for-the-badge&labelColor=0A0F1E&color=3B82F6&label=STARS" alt="Stars" />
+  <a href="https://github.com/gloooomed/Schedulify-App/stargazers">
+    <img src="https://img.shields.io/github/stars/gloooomed/Schedulify-App?style=for-the-badge&labelColor=0A0F1E&color=3B82F6&label=STARS" alt="Stars" />
   </a>
-  <a href="https://github.com/yourusername/Schedulify-App/forks">
-    <img src="https://img.shields.io/github/forks/yourusername/Schedulify-App?style=for-the-badge&labelColor=0A0F1E&color=3B82F6&label=FORKS" alt="Forks" />
+  <a href="https://github.com/gloooomed/Schedulify-App/forks">
+    <img src="https://img.shields.io/github/forks/gloooomed/Schedulify-App?style=for-the-badge&labelColor=0A0F1E&color=3B82F6&label=FORKS" alt="Forks" />
   </a>
   <a href="LICENSE">
     <img src="https://img.shields.io/badge/LICENSE-MIT-brightgreen?style=for-the-badge&labelColor=0A0F1E" alt="License" />
@@ -31,13 +27,23 @@
 
 ---
 
+## Screenshots
+
+<p align="center">
+  <img src="assets/images/Screenshot 2026-05-22 033014.png" alt="Schedulify Gateway Screen" width="45%" />
+  &nbsp;&nbsp;
+  <img src="assets/images/Screenshot 2026-05-22 033021.png" alt="Schedulify Admin Dashboard" width="45%" />
+</p>
+
+---
+
 ## What it does
 
-- **Multi-Tenant Architecture** — Each college gets its own isolated Supabase project. One app, many institutions, zero data bleed.
-- **AI Schedule Parsing** — Upload a CSV or paste raw text. Groq's LLaMA model parses it, detects conflicts, and saves structured timetable entries.
-- **Role-Based Dashboards** — Admins manage everything. Faculty see their classes. Students see their schedule. Each role gets exactly what they need.
-- **Setup Wizard** — New colleges onboard themselves in 5 steps. No backend intervention required.
-- **Live Conflict Detection** — The AI flags scheduling conflicts before entries are saved, preventing double-bookings automatically.
+- **Multi-Tenant Architecture** - Each college gets its own isolated Supabase project. One app, many institutions, zero data bleed.
+- **AI Schedule Parsing** - Upload a CSV or paste raw text. Groq's LLaMA model parses it, detects conflicts, and saves structured timetable entries.
+- **Role-Based Dashboards** - Admins manage everything. Faculty see their classes. Students see their schedule. Each role gets exactly what they need.
+- **Setup Wizard** - New colleges onboard themselves in 5 steps. No backend intervention required.
+- **Live Conflict Detection** - The AI flags scheduling conflicts before entries are saved, preventing double-bookings automatically.
 
 ---
 
@@ -57,7 +63,7 @@
 ## Getting Started
 
 ```bash
-git clone https://github.com/yourusername/Schedulify-App.git
+git clone https://github.com/gloooomed/Schedulify-App.git
 cd Schedulify-App
 flutter pub get
 ```
@@ -122,8 +128,8 @@ Schedulify-App/
 |---|---|---|
 | [Flutter](https://flutter.dev/docs/get-started/install) | 3.32+ | Stable channel |
 | [Android Studio](https://developer.android.com/studio) | Latest | For emulator + SDK |
-| [Groq API Key](https://console.groq.com/keys) | — | Free tier works |
-| [Supabase Account](https://supabase.com) | — | Free plan sufficient |
+| [Groq API Key](https://console.groq.com/keys) | - | Free tier works |
+| [Supabase Account](https://supabase.com) | - | Free plan sufficient |
 
 ### Steps
 
@@ -147,12 +153,12 @@ Schedulify-App/
 
 ## License
 
-MIT — free for personal and educational use.
+MIT - free for personal and educational use.
 
 ---
 
 <p align="center">
-  <em>Built for colleges. Powered by AI. Runs everywhere Android does.</em>
+  <em>Built for colleges. Runs everywhere Android does.</em>
 </p>
 
 <!-- v1.0.0 -->
