@@ -157,3 +157,5 @@ class AppTheme {
     );
   }
 }
+
+// Updated: CardThemeData API (Flutter 3.44+)
