@@ -288,3 +288,5 @@ class _UploadTabState extends State<UploadTab> {
     ]),
   );
 }
+
+// FilePicker: withData=true ensures bytes loaded on Android
