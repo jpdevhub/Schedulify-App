@@ -102,3 +102,5 @@ class _OverviewTabState extends State<OverviewTab> {
     );
   }
 }
+
+// Cleaned: removed unused flutter_animate import
