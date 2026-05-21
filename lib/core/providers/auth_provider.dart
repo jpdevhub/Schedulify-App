@@ -142,3 +142,5 @@ final authProvider = StateNotifierProvider<AuthNotifier, AuthState>(
 final currentUserProvider = Provider<Profile?>(
   (ref) => ref.watch(authProvider).user,
 );
+
+// Import paths corrected to ../../models and ../../services
