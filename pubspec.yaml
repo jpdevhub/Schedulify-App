@@ -1,0 +1,62 @@
+name: schedulify
+description: "Multi-tenant college scheduling SaaS"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.12.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Supabase
+  supabase_flutter: ^2.8.4
+
+  # State management
+  flutter_riverpod: ^2.6.1
+  riverpod_annotation: ^2.6.1
+
+  # Navigation
+  go_router: ^14.8.1
+
+  # Local storage
+  shared_preferences: ^2.3.5
+
+  # Calendar
+  table_calendar: ^3.2.0
+
+  # HTTP (for Groq API)
+  http: ^1.4.0
+
+  # UI
+  google_fonts: ^6.2.1
+  flutter_animate: ^4.5.2
+  shimmer: ^3.0.0
+  cached_network_image: ^3.4.1
+  fl_chart: ^0.70.2
+  dotted_border: ^2.1.0
+
+  # Utilities
+  intl: ^0.20.2
+  uuid: ^4.5.1
+  file_picker: ^8.3.7
+  url_launcher: ^6.3.1
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  build_runner: ^2.4.15
+  riverpod_generator: ^2.6.5
+
+dependency_overrides:
+  # file_picker 8.x compiles against android-34.
+  # Pin lifecycle to 2.0.21 (requires SDK 34) so it's compatible with file_picker 8.x.
+  flutter_plugin_android_lifecycle: 2.0.21
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
