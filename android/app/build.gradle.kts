@@ -41,3 +41,7 @@ kotlin {
 flutter {
     source = "../.."
 }
+
+// compileSdk forced to 36 for lifecycle compat
+
+// compileSdk forced to 36 for lifecycle compat
