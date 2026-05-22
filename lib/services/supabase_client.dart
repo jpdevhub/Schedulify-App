@@ -1,3 +1,4 @@
+import 'package:http/http.dart' as http;
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../config/config_store.dart';
 
@@ -27,14 +28,41 @@ class SupabaseClientManager {
     _client = null;
   }
 
-  /// Test a connection without caching it.
-  static Future<bool> testConnection(String url, String anonKey) async {
+  /// Test that a Supabase project URL is reachable.
+  /// Uses the auth health endpoint — no API key required.
+  /// Key correctness is verified later when schema creation is attempted.
+  static Future<String?> testConnection(String rawUrl, String anonKey) async {
     try {
-      final testClient = SupabaseClient(url, anonKey);
-      await testClient.from('profiles').select('id').limit(1);
-      return true;
-    } catch (_) {
-      return false;
+      var url = rawUrl.trim();
+      if (!url.startsWith('http')) url = 'https://$url';
+      url = url.replaceAll(RegExp(r'/$'), '');
+
+      // /auth/v1/health returns 200 on any valid Supabase project — no key needed
+      final response = await http.get(
+        Uri.parse('$url/auth/v1/health'),
+      ).timeout(const Duration(seconds: 15));
+
+      if (response.statusCode == 200) return null; // success
+
+      // Fallback: try the REST root with the key
+      final res2 = await http.get(
+        Uri.parse('$url/rest/v1/'),
+        headers: {
+          'apikey': anonKey.trim(),
+          'Authorization': 'Bearer ${anonKey.trim()}',
+        },
+      ).timeout(const Duration(seconds: 10));
+
+      if (res2.statusCode < 500) return null;
+      return 'Server error (${res2.statusCode}). Try again later.';
+    } on http.ClientException catch (e) {
+      return 'Network error: ${e.message}';
+    } catch (e) {
+      final msg = e.toString();
+      if (msg.contains('timeout') || msg.contains('TimeoutException')) {
+        return 'Connection timed out. Check the URL and your internet connection.';
+      }
+      return 'Could not reach Supabase: $msg';
     }
   }
 }

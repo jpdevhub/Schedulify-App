@@ -24,6 +24,7 @@ class AdminShell extends ConsumerStatefulWidget {
 
 class _AdminShellState extends ConsumerState<AdminShell> {
   late String _section;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -55,22 +56,25 @@ class _AdminShellState extends ConsumerState<AdminShell> {
     final config = ConfigStore.instance.get();
 
     return Scaffold(
+      key: _scaffoldKey,
       drawer: _buildDrawer(user, config),
-      body: Row(
-        children: [
-          // Sidebar (tablets/larger phones in landscape)
-          if (MediaQuery.of(context).size.width >= 720)
-            _buildSidebar(user, config),
-          // Main content
-          Expanded(
-            child: Column(
-              children: [
-                _buildTopBar(user, config, context),
-                Expanded(child: _buildContent()),
-              ],
+      body: SafeArea(
+        child: Row(
+          children: [
+            // Sidebar (tablets/larger phones in landscape)
+            if (MediaQuery.of(context).size.width >= 720)
+              _buildSidebar(user, config),
+            // Main content
+            Expanded(
+              child: Column(
+                children: [
+                  _buildTopBar(user, config, context),
+                  Expanded(child: _buildContent()),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -86,10 +90,10 @@ class _AdminShellState extends ConsumerState<AdminShell> {
       child: Row(
         children: [
           if (MediaQuery.of(context).size.width < 720)
-            Builder(builder: (ctx) => IconButton(
+            IconButton(
               icon: const Icon(Icons.menu_rounded, color: AppColors.textPrimary),
-              onPressed: () => Scaffold.of(ctx).openDrawer(),
-            )),
+              onPressed: () => _scaffoldKey.currentState?.openDrawer(),
+            ),
           Text(
             _navItems.firstWhere((n) => n.$1 == _section).$3,
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700,

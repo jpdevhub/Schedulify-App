@@ -2,10 +2,12 @@
 
 class Profile {
   final String id;
-  final String role; // super_admin | admin | faculty | student
+  final String role;
   final String firstName;
   final String lastName;
+  final String? email;
   final String? department;
+  final String? departmentId;
   final String? employeeId;
   final String? rollNumber;
   final String? batch;
@@ -19,49 +21,61 @@ class Profile {
     required this.id,
     required this.role,
     required this.firstName,
-    required this.lastName,
+    this.lastName = '',
+    this.email,
     this.department,
+    this.departmentId,
     this.employeeId,
     this.rollNumber,
     this.batch,
     this.semester,
     this.phone,
     this.avatarUrl,
-    required this.isActive,
-    required this.createdAt,
-  });
+    this.isActive = true,
+    DateTime? createdAt,
+  }) : createdAt = createdAt ?? DateTime.now();
 
-  String get fullName => '$firstName $lastName';
+  String get fullName => lastName.isEmpty ? firstName : '$firstName $lastName';
 
-  factory Profile.fromJson(Map<String, dynamic> j) => Profile(
-        id: j['id'],
-        role: j['role'],
-        firstName: j['first_name'],
-        lastName: j['last_name'],
-        department: j['department'],
-        employeeId: j['employee_id'],
-        rollNumber: j['roll_number'],
-        batch: j['batch'],
-        semester: j['semester'],
-        phone: j['phone'],
-        avatarUrl: j['avatar_url'],
-        isActive: j['is_active'] ?? true,
-        createdAt: DateTime.parse(j['created_at']),
-      );
+  factory Profile.fromJson(Map<String, dynamic> j) {
+    // Support both full_name (new schema) and first_name/last_name (legacy)
+    String firstName;
+    String lastName;
+    if (j['full_name'] != null) {
+      final parts = (j['full_name'] as String).split(' ');
+      firstName = parts.first;
+      lastName = parts.length > 1 ? parts.skip(1).join(' ') : '';
+    } else {
+      firstName = j['first_name'] as String? ?? '';
+      lastName = j['last_name'] as String? ?? '';
+    }
+    return Profile(
+      id: j['id'] as String,
+      role: j['role'] as String? ?? 'student',
+      firstName: firstName,
+      lastName: lastName,
+      email: j['email'] as String?,
+      department: j['department'] as String?,
+      departmentId: j['department_id'] as String?,
+      employeeId: j['employee_id'] as String?,
+      rollNumber: j['roll_number'] as String?,
+      batch: j['batch'] as String?,
+      semester: j['semester'] as String?,
+      phone: j['phone'] as String?,
+      avatarUrl: j['avatar_url'] as String?,
+      isActive: j['is_active'] as bool? ?? true,
+      createdAt: j['created_at'] != null
+          ? DateTime.parse(j['created_at'] as String)
+          : DateTime.now(),
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         'id': id,
+        'full_name': fullName,
+        'email': email,
         'role': role,
-        'first_name': firstName,
-        'last_name': lastName,
-        'department': department,
-        'employee_id': employeeId,
-        'roll_number': rollNumber,
-        'batch': batch,
-        'semester': semester,
-        'phone': phone,
-        'avatar_url': avatarUrl,
-        'is_active': isActive,
+        'department_id': departmentId,
       };
 }
 

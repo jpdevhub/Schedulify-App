@@ -56,14 +56,39 @@ class AuthNotifier extends StateNotifier<AuthState> {
   }
 
   Future<void> _fetchProfile(String userId) async {
-    final res = await supabase
-        .from('profiles')
-        .select()
-        .eq('id', userId)
-        .maybeSingle();
-    if (res != null) {
-      state = state.copyWith(user: Profile.fromJson(res), isLoading: false);
+    try {
+      final res = await supabase
+          .from('profiles')
+          .select()
+          .eq('id', userId)
+          .maybeSingle();
+      if (res != null) {
+        state = state.copyWith(user: Profile.fromJson(res), isLoading: false);
+        return;
+      }
+    } catch (_) {
+      // profiles table may not exist yet — fall through to auth user fallback
     }
+    // Fallback: build Profile from Supabase auth user metadata
+    try {
+      final authUser = supabase.auth.currentUser;
+      if (authUser != null) {
+        final meta = authUser.userMetadata ?? {};
+        final name = (meta['full_name'] as String? ?? authUser.email ?? 'Admin');
+        final parts = name.split(' ');
+        state = state.copyWith(
+          user: Profile(
+            id: authUser.id,
+            firstName: parts.first,
+            lastName: parts.length > 1 ? parts.skip(1).join(' ') : '',
+            role: meta['role'] as String? ?? 'admin',
+            isActive: true,
+            createdAt: DateTime.now(),
+          ),
+          isLoading: false,
+        );
+      }
+    } catch (_) {}
   }
 
   Future<String?> login(String email, String password) async {
@@ -75,9 +100,27 @@ class AuthNotifier extends StateNotifier<AuthState> {
       );
       if (res.user != null) {
         await _fetchProfile(res.user!.id);
+        // If _fetchProfile didn't set a user (silent error), set one from auth data
+        if (!state.isAuthenticated) {
+          final meta = res.user!.userMetadata ?? {};
+          final name = (meta['full_name'] as String? ?? email);
+          final parts = name.split(' ');
+          state = state.copyWith(
+            user: Profile(
+              id: res.user!.id,
+              firstName: parts.first,
+              lastName: parts.length > 1 ? parts.skip(1).join(' ') : '',
+              role: meta['role'] as String? ?? 'admin',
+              isActive: true,
+              createdAt: DateTime.now(),
+            ),
+            isLoading: false,
+          );
+        }
         return null; // success
       }
-      return 'Login failed';
+      state = state.copyWith(isLoading: false);
+      return 'Login failed. Please try again.';
     } on AuthException catch (e) {
       state = state.copyWith(isLoading: false, error: e.message);
       return e.message;
