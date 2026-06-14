@@ -93,14 +93,14 @@ class _GatewayScreenState extends State<GatewayScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // App icon
-                  Container(
-                    width: 80, height: 80,
-                    decoration: BoxDecoration(
-                      color: AppColors.primary,
-                      borderRadius: BorderRadius.circular(24),
-                    ),
-                    child: const Icon(Icons.calendar_month_rounded,
-                        color: Colors.white, size: 40),
+                  ColorFiltered(
+                    colorFilter: const ColorFilter.matrix([
+                      1, 0, 0, 0, 0,
+                      0, 1, 0, 0, 0,
+                      0, 0, 1, 0, 0,
+                      -1, -1, -1, 0, 765,
+                    ]),
+                    child: Image.asset('assets/images/App_icon.png', width: 80, height: 80),
                   ).animate().fadeIn(duration: 500.ms).scale(begin: const Offset(0.8, 0.8)),
                   const SizedBox(height: 24),
 

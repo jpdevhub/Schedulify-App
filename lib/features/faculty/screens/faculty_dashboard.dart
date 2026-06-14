@@ -151,10 +151,14 @@ class _FacultyDashboardState extends ConsumerState<FacultyDashboard> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
             child: Row(children: [
-              Container(
-                width: 36, height: 36,
-                decoration: BoxDecoration(color: AppColors.primary, borderRadius: BorderRadius.circular(10)),
-                child: const Icon(Icons.calendar_month_rounded, color: Colors.white, size: 20),
+              ColorFiltered(
+                colorFilter: const ColorFilter.matrix([
+                  1, 0, 0, 0, 0,
+                  0, 1, 0, 0, 0,
+                  0, 0, 1, 0, 0,
+                  -1, -1, -1, 0, 765,
+                ]),
+                child: Image.asset('assets/images/App_icon.png', width: 36, height: 36),
               ),
               const SizedBox(width: 10),
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [

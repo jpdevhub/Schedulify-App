@@ -67,26 +67,44 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 key: _formKey,
                 child: Column(
                   children: [
-                    // Icon
-                    Container(
-                      width: 80, height: 80,
-                      decoration: BoxDecoration(
-                        color: AppColors.primary,
-                        borderRadius: BorderRadius.circular(24),
-                      ),
-                      child: const Icon(Icons.calendar_month_rounded,
-                          color: Colors.white, size: 38),
-                    ).animate().fadeIn(duration: 500.ms).scale(begin: const Offset(0.8, 0.8)),
-                    const SizedBox(height: 24),
+                    // Dual logo header
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Column(children: [
+                          ColorFiltered(
+                            colorFilter: const ColorFilter.matrix([
+                              1, 0, 0, 0, 0,
+                              0, 1, 0, 0, 0,
+                              0, 0, 1, 0, 0,
+                              -1, -1, -1, 0, 765,
+                            ]),
+                            child: Image.asset('assets/images/App_icon.png', height: 60),
+                          ),
+                          const SizedBox(height: 6),
+                          Text('SCHEDULIFY',
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w800,
+                                  color: context.textPrimary,
+                                  letterSpacing: 1.5)),
+                        ]),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: SizedBox(
+                            height: 90,
+                            child: VerticalDivider(
+                              color: context.borderColor,
+                              thickness: 1.5,
+                            ),
+                          ),
+                        ),
+                        Image.asset('assets/images/iem.png', height: 80),
+                      ],
+                    ).animate().fadeIn(duration: 500.ms).scale(begin: const Offset(0.95, 0.95)),
+                    const SizedBox(height: 32),
 
-                    Text('Schedulify',
-                        style: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.w800,
-                            color: context.textPrimary,
-                            letterSpacing: -0.5))
-                        .animate().fadeIn(delay: 150.ms),
-                    const SizedBox(height: 8),
                     Text('Sign in to your account',
                         style: TextStyle(fontSize: 15, color: context.textSecondary))
                         .animate().fadeIn(delay: 250.ms),
