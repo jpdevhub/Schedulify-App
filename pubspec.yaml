@@ -1,7 +1,7 @@
 name: schedulify
 description: "Multi-tenant college scheduling SaaS"
 publish_to: 'none'
-version: 0.2.1+2
+version: 0.2.4+3
 
 environment:
   sdk: ^3.12.0
@@ -56,6 +56,7 @@ dependencies:
   path_provider: ^2.1.5
   firebase_core: ^4.10.0
   firebase_analytics: ^12.4.2
+  flutter_svg: ^2.3.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
