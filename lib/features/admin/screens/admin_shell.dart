@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/providers/auth_provider.dart';
 import '../../../core/providers/theme_provider.dart';
@@ -149,7 +150,7 @@ class _AdminShellState extends ConsumerState<AdminShell> {
   }
 
   Widget _buildDrawer(user, config) {
-    return Drawer(child: _sidebarContent(user, config));
+    return Drawer(backgroundColor: context.surfaceColor, child: _sidebarContent(user, config));
   }
 
   Widget _sidebarContent(user, config) {
@@ -160,15 +161,7 @@ class _AdminShellState extends ConsumerState<AdminShell> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
             child: Row(children: [
-              ColorFiltered(
-                colorFilter: const ColorFilter.matrix([
-                  1, 0, 0, 0, 0,
-                  0, 1, 0, 0, 0,
-                  0, 0, 1, 0, 0,
-                  -1, -1, -1, 0, 765,
-                ]),
-                child: Image.asset('assets/images/App_icon.png', width: 36, height: 36),
-              ),
+              SvgPicture.asset('assets/images/App_icon.svg', width: 36, height: 36),
               const SizedBox(width: 10),
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Text('Schedulify',

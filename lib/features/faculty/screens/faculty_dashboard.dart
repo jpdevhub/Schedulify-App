@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 import '../../../core/theme/app_theme.dart';
@@ -142,7 +143,7 @@ class _FacultyDashboardState extends ConsumerState<FacultyDashboard> {
     );
   }
 
-  Widget _buildDrawer(user) => Drawer(child: _sidebarContent(user));
+  Widget _buildDrawer(user) => Drawer(backgroundColor: context.surfaceColor, child: _sidebarContent(user));
 
   Widget _sidebarContent(user) {
     return SafeArea(
@@ -151,15 +152,7 @@ class _FacultyDashboardState extends ConsumerState<FacultyDashboard> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
             child: Row(children: [
-              ColorFiltered(
-                colorFilter: const ColorFilter.matrix([
-                  1, 0, 0, 0, 0,
-                  0, 1, 0, 0, 0,
-                  0, 0, 1, 0, 0,
-                  -1, -1, -1, 0, 765,
-                ]),
-                child: Image.asset('assets/images/App_icon.png', width: 36, height: 36),
-              ),
+              SvgPicture.asset('assets/images/App_icon.svg', width: 36, height: 36),
               const SizedBox(width: 10),
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Text('Schedulify', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: context.textPrimary)),

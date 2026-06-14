@@ -108,6 +108,9 @@ class AppTheme {
         iconTheme: IconThemeData(color: textPrimary),
         actionsIconTheme: IconThemeData(color: textMuted),
       ),
+      drawerTheme: DrawerThemeData(
+        backgroundColor: surface,
+      ),
       cardTheme: CardThemeData(
         color: surface,
         elevation: 0,
@@ -195,7 +198,6 @@ class AppTheme {
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       ),
       progressIndicatorTheme: const ProgressIndicatorThemeData(color: AppColors.primary),
-      drawerTheme: DrawerThemeData(backgroundColor: surface),
     );
   }
 }
