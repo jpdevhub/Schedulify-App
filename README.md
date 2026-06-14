@@ -1,4 +1,7 @@
-<h1 align="center">Schedulify</h1>
+<h1 align="center">
+  <img src="assets/images/App_icon.svg" width="80" alt="Schedulify Logo" /><br/>
+  Schedulify
+</h1>
 
 <p align="center">
   College attendance and timetable management - built for real institutions.
@@ -18,10 +21,10 @@
     <img src="https://img.shields.io/github/forks/gloooomed/Schedulify-App?style=for-the-badge&labelColor=0A0F1E&color=3B82F6&label=FORKS" alt="Forks" />
   </a>
   <a href="#">
-    <img src="https://img.shields.io/badge/VERSION-0.2.2-3B82F6?style=for-the-badge&labelColor=0A0F1E" alt="Version" />
+    <img src="https://img.shields.io/badge/VERSION-0.2.4-3B82F6?style=for-the-badge&labelColor=0A0F1E" alt="Version" />
   </a>
   <a href="#">
-    <img src="https://img.shields.io/badge/PLATFORM-Android%20|%20iOS%20|%20Web-8B5CF6?style=for-the-badge&labelColor=0A0F1E" alt="Platform" />
+    <img src="https://img.shields.io/badge/PLATFORM-Android%20|%20Web%20(iOS%20PWA)-8B5CF6?style=for-the-badge&labelColor=0A0F1E" alt="Platform" />
   </a>
   <a href="#">
     <img src="https://img.shields.io/badge/STATUS-Active-10B981?style=for-the-badge&labelColor=0A0F1E" alt="Status" />
@@ -67,29 +70,29 @@ Schedulify is a closed-source mobile application built for colleges to manage ti
 | Platform | Minimum Version | Notes |
 |---|---|---|
 | Android | Android 5.0 (API 21) | Primary supported platform |
-| iOS | iOS 11.0 | Full platform support |
-| Web | Modern Browsers | Supported for Admin dashboard |
+| iOS | iOS 14.0+ (Safari) | Supported via Installable PWA |
+| Web | Modern Browsers | Supported for Admin dashboard & Students |
 
 > GPS and camera permissions are required for attendance marking.
 
 ---
 
-## What's New in 0.2.2
+## What's New in 0.2.4
 
-- Geofence now **fails closed** - if no polygon is configured, attendance is blocked (previously allowed everyone through)
-- GPS buffer changed from a fixed 60 m to a **dynamic accuracy-based buffer** capped at 20 m - matches the device's reported GPS error margin
-- Replaced `flutter_barcode_scanner` (abandoned, jcenter-dependent) with `barcode_scan2` (native ZXing, Gradle 9 compatible)
-- Fixed Gradle duplicate class error caused by legacy Android support library
-- Removed all unnecessary comments from the codebase
+- **Crystal Clear Graphics:** The Schedulify logo now looks perfectly sharp and crisp on all your devices, no matter the screen size.
+- **Polished Light Mode Experience:** We've ironed out visual quirks in Light Mode! The navigation menu now perfectly blends with the bright theme for a seamless, beautiful look.
+- **Updated App Identity:** You'll now see our updated, modern branding right from the moment you launch the app or open a new browser tab.
+- **Smoother Android Performance:** Under-the-hood upgrades ensure the Android app launches faster and runs more reliably than ever.
 
 ---
 
 ## Coming in the Next Update
 
-- Student enrollment management from the admin panel
-- Attendance analytics dashboard with per-course percentage breakdowns
-- Push notifications for session start/end
-- Offline grace period for poor connectivity environments
+- **Course Visibility Fix:** We will be deploying a crucial patch to ensure all your enrolled courses reliably appear in your student profile without fail.
+- **Overall Polish & Refinement:** Expect an even smoother experience! We are preparing major under-the-hood tweaks to make every tap and swipe feel lightning-fast.
+- **Real-Time Schedule Alerts:** Soon, you will be able to receive instant push notifications whenever a professor reschedules a class, changes a venue, or makes an announcement.
+- **Interactive Campus Navigation:** We are building a dynamic campus map that will guide you straight to the correct building and room for your next class.
+- **Study Group Hubs:** Get ready for a brand-new social space! You will soon be able to effortlessly connect with classmates, form study groups, and share resources directly within the app.
 
 ---
 
