@@ -6,6 +6,7 @@ import '../../../core/theme/app_theme.dart';
 import '../../../core/providers/auth_provider.dart';
 import '../../../shared/widgets/widgets.dart';
 import '../../../core/utils/pwa_prompt.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -73,15 +74,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Column(children: [
-                          ColorFiltered(
-                            colorFilter: const ColorFilter.matrix([
-                              1, 0, 0, 0, 0,
-                              0, 1, 0, 0, 0,
-                              0, 0, 1, 0, 0,
-                              -1, -1, -1, 0, 765,
-                            ]),
-                            child: Image.asset('assets/images/App_icon.png', height: 60),
-                          ),
+                          SvgPicture.asset('assets/images/App_icon.svg', height: 60),
                           const SizedBox(height: 6),
                           Text('SCHEDULIFY',
                               style: TextStyle(

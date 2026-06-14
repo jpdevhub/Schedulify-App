@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../services/vendor_registry.dart';
 import '../../../config/config_store.dart';
@@ -92,16 +93,7 @@ class _GatewayScreenState extends State<GatewayScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // App icon
-                  ColorFiltered(
-                    colorFilter: const ColorFilter.matrix([
-                      1, 0, 0, 0, 0,
-                      0, 1, 0, 0, 0,
-                      0, 0, 1, 0, 0,
-                      -1, -1, -1, 0, 765,
-                    ]),
-                    child: Image.asset('assets/images/App_icon.png', width: 80, height: 80),
-                  ).animate().fadeIn(duration: 500.ms).scale(begin: const Offset(0.8, 0.8)),
+                  SvgPicture.asset('assets/images/App_icon.svg', width: 80, height: 80).animate().fadeIn(duration: 500.ms).scale(begin: const Offset(0.8, 0.8)),
                   const SizedBox(height: 24),
 
                   Text('Schedulify',
