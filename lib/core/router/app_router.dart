@@ -39,8 +39,9 @@ class _RouterNotifier extends ChangeNotifier {
     // Already on splash — let it through
     if (path == '/splash') return null;
 
+    // Already authenticated — skip gateway/login and go straight to dashboard.
     if (isAuthenticated && (path == '/' || path == '/login')) {
-      return '/splash?next=${_roleHome(authState.user!.role)}';
+      return _roleHome(authState.user!.role);
     }
 
     if (isAuthenticated) {

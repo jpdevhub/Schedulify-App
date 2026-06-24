@@ -36,16 +36,16 @@ class _AdminShellState extends ConsumerState<AdminShell> {
   }
 
   static const _navItems = [
-    ('overview',    Icons.grid_view_rounded,          'Overview'),
-    ('departments', Icons.business_outlined,           'Departments'),
-    ('courses',     Icons.menu_book_outlined,          'Courses'),
-    ('faculty',     Icons.person_outline_rounded,      'Faculty'),
-    ('students',    Icons.school_outlined,             'Students'),
-    ('classrooms',  Icons.meeting_room_outlined,       'Classrooms'),
-    ('timetables',  Icons.calendar_month_outlined,     'Timetables'),
-    ('upload',      Icons.upload_outlined,             'AI Upload'),
-    ('attendance',  Icons.checklist_outlined,          'Attendance'),
-    ('geofence',    Icons.location_on_outlined,        'Geofence'),
+    ('overview',    Icons.space_dashboard_rounded,     'Overview'),
+    ('departments', Icons.domain_rounded,              'Departments'),
+    ('courses',     Icons.menu_book_rounded,           'Courses'),
+    ('faculty',     Icons.co_present_rounded,          'Faculty'),
+    ('students',    Icons.groups_rounded,              'Students'),
+    ('classrooms',  Icons.meeting_room_rounded,        'Classrooms'),
+    ('timetables',  Icons.calendar_month_rounded,      'Timetables'),
+    ('upload',      Icons.auto_awesome_rounded,        'AI Upload'),
+    ('attendance',  Icons.fact_check_rounded,          'Attendance'),
+    ('geofence',    Icons.radar_rounded,               'Geofence'),
   ];
 
   Future<void> _logout() async {
@@ -120,17 +120,20 @@ class _AdminShellState extends ConsumerState<AdminShell> {
             tooltip: isDark ? 'Light mode' : 'Dark mode',
             onPressed: () => ref.read(themeModeProvider.notifier).toggle(),
           ),
-          const SizedBox(width: 4),
+          const SizedBox(width: 12),
           if (user != null) ...[
-            RoleBadge(role: user.role),
-            const SizedBox(width: 10),
-            Text(user.fullName,
-                style: TextStyle(color: context.textSecondary, fontSize: 13)),
-            const SizedBox(width: 4),
-            IconButton(
-              icon: Icon(Icons.logout_rounded, color: context.textMuted, size: 20),
-              onPressed: _logout,
-              tooltip: 'Logout',
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                RoleBadge(role: user.role),
+                const SizedBox(width: 8),
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 150),
+                  child: Text(user.fullName,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(color: context.textPrimary, fontSize: 13, fontWeight: FontWeight.w600)),
+                ),
+              ],
             ),
           ],
         ],

@@ -79,8 +79,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           Text('SCHEDULIFY',
                               style: TextStyle(
                                   fontSize: 12,
-                                  fontWeight: FontWeight.w800,
-                                  color: context.textPrimary,
+                                  fontWeight: FontWeight.w900,
+                                  color: AppColors.primary,
                                   letterSpacing: 1.5)),
                         ]),
                         Padding(

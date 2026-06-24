@@ -25,8 +25,8 @@ class _StudentDashboardState extends ConsumerState<StudentDashboard> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   static const _navItems = [
-    ('schedule',   Icons.calendar_today_rounded, 'Schedule'),
-    ('courses',    Icons.book_rounded,           'Courses'),
+    ('schedule',   Icons.calendar_month_rounded, 'Schedule'),
+    ('courses',    Icons.menu_book_rounded,      'Courses'),
     ('attendance', Icons.fact_check_rounded,     'Attendance'),
   ];
 
@@ -119,17 +119,22 @@ class _StudentDashboardState extends ConsumerState<StudentDashboard> {
             tooltip: isDark ? 'Light mode' : 'Dark mode',
             onPressed: () => ref.read(themeModeProvider.notifier).toggle(),
           ),
-          const SizedBox(width: 4),
+          const SizedBox(width: 12),
           if (user != null) ...[
-            RoleBadge(role: user.role),
-            const SizedBox(width: 8),
-            Text(user.fullName, style: TextStyle(color: context.textSecondary, fontSize: 13)),
-            const SizedBox(width: 4),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                RoleBadge(role: user.role),
+                const SizedBox(width: 8),
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 150),
+                  child: Text(user.fullName,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(color: context.textPrimary, fontSize: 13, fontWeight: FontWeight.w600)),
+                ),
+              ],
+            ),
           ],
-          IconButton(
-            icon: Icon(Icons.logout_rounded, color: context.textMuted, size: 20),
-            onPressed: _logout, tooltip: 'Logout',
-          ),
         ],
       ),
     );
@@ -245,7 +250,7 @@ class _StudentDashboardState extends ConsumerState<StudentDashboard> {
               icon: Icons.class_rounded, color: AppColors.primary)),
           const SizedBox(width: 12),
           Expanded(child: StatCard(label: 'Enrolled Courses', value: '${_courses.length}',
-              icon: Icons.book_rounded, color: AppColors.info)),
+              icon: Icons.menu_book_rounded, color: AppColors.info)),
         ]),
         const SizedBox(height: 20),
         GlassCard(
@@ -300,7 +305,7 @@ class _StudentDashboardState extends ConsumerState<StudentDashboard> {
               child: ShimmerBox(height: 72, radius: 14))));
     }
     if (_courses.isEmpty) {
-      return const Center(child: EmptyState(icon: Icons.book_rounded,
+      return const Center(child: EmptyState(icon: Icons.menu_book_rounded,
           title: 'No enrolled courses', subtitle: 'Contact your administrator to get enrolled'));
     }
     return ListView.builder(

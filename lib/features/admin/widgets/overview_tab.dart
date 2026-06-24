@@ -74,10 +74,10 @@ class _OverviewTabState extends State<OverviewTab> {
 
   Widget _statGrid() {
     final items = [
-      ('Departments', '${_stats?['departments'] ?? 0}', Icons.business_rounded, AppColors.primary),
-      ('Courses', '${_stats?['courses'] ?? 0}', Icons.book_rounded, AppColors.info),
-      ('Classrooms', '${_stats?['classrooms'] ?? 0}', Icons.room_rounded, AppColors.warning),
-      ('Users', '${_stats?['users'] ?? 0}', Icons.people_rounded, AppColors.success),
+      ('Departments', '${_stats?['departments'] ?? 0}', Icons.domain_rounded, AppColors.primary),
+      ('Courses', '${_stats?['courses'] ?? 0}', Icons.menu_book_rounded, AppColors.info),
+      ('Classrooms', '${_stats?['classrooms'] ?? 0}', Icons.meeting_room_rounded, AppColors.warning),
+      ('Users', '${_stats?['users'] ?? 0}', Icons.groups_rounded, AppColors.success),
     ];
     return LayoutBuilder(builder: (_, constraints) {
       final isWide = constraints.maxWidth > 600;
