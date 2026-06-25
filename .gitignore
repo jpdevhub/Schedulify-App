@@ -58,3 +58,8 @@ android/local.properties
 
 # Flutter plugin cache files (auto-regenerated)
 .flutter-plugins
+
+# Supabase CLI temp files — generated locally, not needed in repo
+supabase/.temp/
+supabase/.branches/
+.supabase/
