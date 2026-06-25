@@ -54,6 +54,60 @@ class _UsersTabState extends ConsumerState<UsersTab> {
     }
   }
 
+  Future<void> _confirmDelete(Profile user) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Text(
+          'Delete ${widget.role == 'faculty' ? 'Faculty' : 'Student'}?',
+          style: TextStyle(
+              color: Theme.of(context).colorScheme.onSurface,
+              fontWeight: FontWeight.w700),
+        ),
+        content: Text(
+          'Are you sure you want to permanently delete ${user.fullName}?\n\n'
+          'This will remove their account, all enrollments, and attendance records. '
+          'This cannot be undone.',
+          style: TextStyle(
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+              fontSize: 14),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: Text('Cancel',
+                style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6))),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: const Text('Delete',
+                style: TextStyle(color: AppColors.danger, fontWeight: FontWeight.w700)),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed != true || !mounted) return;
+
+    final err = await ref.read(authProvider.notifier).deleteUser(user.id);
+    if (!mounted) return;
+    if (err != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $err'), backgroundColor: AppColors.danger),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('${user.fullName} deleted successfully.'),
+          backgroundColor: AppColors.success,
+        ),
+      );
+      _load();
+    }
+  }
+
   void _showCreateForm() {
     final email      = TextEditingController();
     final password   = TextEditingController();
@@ -261,6 +315,12 @@ class _UsersTabState extends ConsumerState<UsersTab> {
                         await DbService.toggleUserActive(u.id, v);
                         _load();
                       },
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.delete_outline_rounded,
+                          color: AppColors.danger, size: 20),
+                      tooltip: 'Delete ${widget.role == 'faculty' ? 'faculty' : 'student'}',
+                      onPressed: () => _confirmDelete(u),
                     ),
                   ]),
                 ),

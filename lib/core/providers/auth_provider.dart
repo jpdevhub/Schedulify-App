@@ -201,6 +201,34 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
   }
 
+  Future<String?> deleteUser(String userId) async {
+    try {
+      final config = await _getConfig();
+      final serviceKey = config.$3;
+      final base = config.$1.replaceAll(RegExp(r'/$'), '');
+
+      // Delete from auth.users via Admin API (requires service role key)
+      if (serviceKey != null && serviceKey.isNotEmpty) {
+        final authRes = await http.delete(
+          Uri.parse('$base/auth/v1/admin/users/$userId'),
+          headers: {
+            'apikey': serviceKey,
+            'Authorization': 'Bearer $serviceKey',
+          },
+        );
+        if (authRes.statusCode > 299) {
+          return 'Failed to delete auth user: ${authRes.body}';
+        }
+      }
+
+      // Also explicitly delete from profiles (handles cases without cascade)
+      await supabase.from('profiles').delete().eq('id', userId);
+      return null;
+    } catch (e) {
+      return e.toString();
+    }
+  }
+
   Future<(String, String, String?)> _getConfig() async {
     final cfg = ConfigStore.instance.get();
     if (cfg == null) throw StateError('No college config found');
