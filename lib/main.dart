@@ -4,6 +4,7 @@ import 'core/theme/app_theme.dart';
 import 'core/providers/theme_provider.dart';
 import 'core/router/app_router.dart';
 import 'config/config_store.dart';
+import 'services/supabase_client.dart';
 import 'services/vendor_registry.dart';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -19,6 +20,16 @@ void main() async {
   await ConfigStore.instance.init();
 
   VendorRegistry.instance.init();
+
+  // If college config is already saved (built-in or previously connected),
+  // initialize Supabase right away so the session is restored from cache.
+  if (ConfigStore.instance.isReady) {
+    try {
+      await SupabaseClientManager.instance.ensureInitialized();
+    } catch (_) {
+      // Config may be incomplete — let the GatewayScreen handle it.
+    }
+  }
 
   runApp(const ProviderScope(child: SchedulifyApp()));
 }

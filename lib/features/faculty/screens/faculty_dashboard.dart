@@ -27,7 +27,7 @@ class _FacultyDashboardState extends ConsumerState<FacultyDashboard> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   static const _navItems = [
-    ('schedule',   Icons.calendar_today_rounded, 'Schedule'),
+    ('schedule',   Icons.calendar_month_rounded, 'Schedule'),
     ('attendance', Icons.fact_check_rounded,     'Attendance'),
   ];
 
@@ -116,17 +116,22 @@ class _FacultyDashboardState extends ConsumerState<FacultyDashboard> {
             tooltip: isDark ? 'Light mode' : 'Dark mode',
             onPressed: () => ref.read(themeModeProvider.notifier).toggle(),
           ),
-          const SizedBox(width: 4),
+          const SizedBox(width: 12),
           if (user != null) ...[
-            RoleBadge(role: user.role),
-            const SizedBox(width: 8),
-            Text(user.fullName, style: TextStyle(color: context.textSecondary, fontSize: 13)),
-            const SizedBox(width: 4),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                RoleBadge(role: user.role),
+                const SizedBox(width: 8),
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 150),
+                  child: Text(user.fullName,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(color: context.textPrimary, fontSize: 13, fontWeight: FontWeight.w600)),
+                ),
+              ],
+            ),
           ],
-          IconButton(
-            icon: Icon(Icons.logout_rounded, color: context.textMuted, size: 20),
-            onPressed: _logout, tooltip: 'Logout',
-          ),
         ],
       ),
     );
@@ -307,7 +312,7 @@ class _ScheduleView extends StatelessWidget {
             Row(children: [
               _MiniStat('Classes', '${schedule.length}', Icons.class_rounded, AppColors.primary),
               _MiniStat('Courses', '${schedule.map((e) => e.courseId).toSet().length}',
-                  Icons.book_rounded, AppColors.info),
+                  Icons.menu_book_rounded, AppColors.info),
               _MiniStat('Labs', '${schedule.where((e) => e.sessionType == 'lab').length}',
                   Icons.science_rounded, AppColors.warning),
             ]),

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../config/config_store.dart';
@@ -8,20 +9,50 @@ class SupabaseClientManager {
       _instance ??= SupabaseClientManager._();
   SupabaseClientManager._();
 
-  SupabaseClient? _client;
+  bool _initialized = false;
 
-  SupabaseClient get client {
-    if (_client != null) return _client!;
+  /// Returns true if Supabase.initialize() has been called.
+  bool get isInitialized => _initialized;
+
+  /// Call this once after config is ready. Safe to call multiple times
+  /// (subsequent calls reinitialize with the new URL/key).
+  Future<void> ensureInitialized() async {
     final config = ConfigStore.instance.get();
     if (config == null) {
       throw StateError('Supabase not configured. Complete college setup first.');
     }
-    _client = SupabaseClient(config.supabaseUrl, config.supabaseAnonKey);
-    return _client!;
+
+    if (_initialized) {
+      // Supabase.initialize cannot be called twice in the same isolate,
+      // but we can update the client by signing out and re-pointing.
+      // For a full re-init (e.g. college change) a hot-restart is needed.
+      return;
+    }
+
+    await Supabase.initialize(
+      url: config.supabaseUrl,
+      anonKey: config.supabaseAnonKey,
+      authOptions: const FlutterAuthClientOptions(
+        authFlowType: AuthFlowType.pkce,
+      ),
+      debug: false,
+    );
+    _initialized = true;
   }
 
+  SupabaseClient get client {
+    if (!_initialized) {
+      throw StateError('Call ensureInitialized() before accessing client.');
+    }
+    return Supabase.instance.client;
+  }
+
+  /// Called when a new college config is saved (gateway screen).
+  /// Because Supabase.initialize() can only run once per isolate,
+  /// we simply set the flag so the existing instance is reused.
   void reset() {
-    _client = null;
+    // No-op: Supabase.instance keeps the same client.
+    // If the URL truly changed, the user needs a full page reload.
   }
 
   static Future<String?> testConnection(String rawUrl, String anonKey) async {

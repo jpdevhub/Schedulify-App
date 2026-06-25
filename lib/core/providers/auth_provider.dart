@@ -25,33 +25,40 @@ class AuthState {
 
 class AuthNotifier extends StateNotifier<AuthState> {
   AuthNotifier() : super(const AuthState(isLoading: true)) {
-    _init();
+    initialize();
   }
 
-  void _init() async {
-    try {
-      final session = supabase.auth.currentSession;
-      if (session != null) {
-        await _fetchProfile(session.user.id);
-      }
-    } catch (_) {
-    } finally {
-      if (state.isLoading) state = state.copyWith(isLoading: false);
-    }
+  bool _initialized = false;
 
+  void initialize() async {
+    // Guard against duplicate stream subscriptions
+    if (_initialized) return;
+    _initialized = true;
+
+    state = const AuthState(isLoading: true);
     try {
+      // The onAuthStateChange stream fires AuthChangeEvent.initialSession
+      // immediately on listen — with the cached session if one exists in
+      // browser localStorage (via Supabase.initialize), or null if not.
       supabase.auth.onAuthStateChange.listen((data) async {
         final event = data.event;
         final session = data.session;
-        if (event == AuthChangeEvent.signedIn && session != null) {
+        if ((event == AuthChangeEvent.signedIn ||
+            event == AuthChangeEvent.initialSession ||
+            event == AuthChangeEvent.tokenRefreshed) &&
+            session != null) {
           state = const AuthState(isLoading: true);
           await _fetchProfile(session.user.id);
           if (state.isLoading) state = state.copyWith(isLoading: false);
         } else if (event == AuthChangeEvent.signedOut) {
-          state = const AuthState(); // user: null, isLoading: false
+          state = const AuthState();
+        } else if (event == AuthChangeEvent.initialSession && session == null) {
+          state = const AuthState(); // no cached session — go to login
         }
       });
-    } catch (_) {}
+    } catch (_) {
+      state = const AuthState();
+    }
   }
 
   Future<void> _fetchProfile(String userId) async {

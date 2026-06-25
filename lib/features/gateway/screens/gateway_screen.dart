@@ -8,20 +8,22 @@ import '../../../services/vendor_registry.dart';
 import '../../../config/config_store.dart';
 import '../../../services/supabase_client.dart';
 import '../../../shared/widgets/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../core/providers/auth_provider.dart';
 
 const _builtInUrl  = String.fromEnvironment('COLLEGE_SUPABASE_URL',      defaultValue: '');
 const _builtInKey  = String.fromEnvironment('COLLEGE_SUPABASE_ANON_KEY', defaultValue: '');
 const _builtInName = String.fromEnvironment('COLLEGE_NAME',              defaultValue: '');
 const _builtInId   = String.fromEnvironment('COLLEGE_ID',               defaultValue: '');
 
-class GatewayScreen extends StatefulWidget {
+class GatewayScreen extends ConsumerStatefulWidget {
   const GatewayScreen({super.key});
 
   @override
-  State<GatewayScreen> createState() => _GatewayScreenState();
+  ConsumerState<GatewayScreen> createState() => _GatewayScreenState();
 }
 
-class _GatewayScreenState extends State<GatewayScreen> {
+class _GatewayScreenState extends ConsumerState<GatewayScreen> {
   final _controller = TextEditingController();
   bool _isLoading = false;
   String? _error;
@@ -43,8 +45,9 @@ class _GatewayScreenState extends State<GatewayScreen> {
       collegeId:       _builtInId.isNotEmpty   ? _builtInId   : null,
       setupComplete:   true,
     ));
-    SupabaseClientManager.instance.reset();
-    await Future.delayed(const Duration(milliseconds: 100));
+    await SupabaseClientManager.instance.ensureInitialized();
+    // AuthNotifier auto-initializes via its constructor; no need to call again.
+    await Future.delayed(const Duration(milliseconds: 200));
     if (mounted) context.go('/login');
   }
 
@@ -72,7 +75,8 @@ class _GatewayScreenState extends State<GatewayScreen> {
         collegeId:       college.collegeId,
         setupComplete:   true,
       ));
-      SupabaseClientManager.instance.reset();
+      await SupabaseClientManager.instance.ensureInitialized();
+      // AuthNotifier auto-initializes via its constructor; no need to call again.
       if (mounted) context.go('/login');
     } on TimeoutException {
       setState(() { _error = 'Connection timed out. Check your internet.'; _isLoading = false; });
