@@ -155,6 +155,7 @@ class _ScannerScreenState extends ConsumerState<ScannerScreen> {
     'session_not_active' => 'Session is no longer active.',
     'invalid_qr'         => 'QR code expired. Ask faculty to display the latest code.',
     'already_marked'     => 'You have already marked attendance for this session.',
+    'not_enrolled'       => 'You are not enrolled in this course.',
     _                    => 'Something went wrong ($code). Try again.',
   };
 

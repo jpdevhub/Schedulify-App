@@ -50,7 +50,10 @@ class _StudentDashboardState extends ConsumerState<StudentDashboard> {
         _courses  = r[1] as List<Course>;
         _loading  = false;
       });
-    } catch (_) { setState(() => _loading = false); }
+    } catch (e, st) {
+      debugPrint('StudentDashboard load error: $e\n$st');
+      setState(() => _loading = false);
+    }
   }
 
   List<TimetableEntry> get _todayClasses {

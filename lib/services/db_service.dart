@@ -103,14 +103,11 @@ class DbService {
   }
 
   static Future<void> publishTimetable(String id) async {
-    await supabase
-        .from('timetables')
-        .update({'is_active': false, 'status': 'archived'})
-        .neq('id', id);
-    await supabase.from('timetables').update({
-      'status': 'published',
-      'is_active': true,
-    }).eq('id', id);
+    final res = await supabase.rpc('publish_timetable', params: {'p_timetable_id': id});
+    final json = Map<String, dynamic>.from(res as Map);
+    if (json['success'] != true) {
+      throw Exception(json['error'] ?? 'Failed to publish timetable');
+    }
   }
 
   static Future<void> archiveTimetable(String id) async {
